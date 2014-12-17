@@ -10,6 +10,7 @@
 
 @interface NLCardViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UILabel *theLabel;
+@property (weak, nonatomic) IBOutlet UIView *innerView;
 @property (assign, nonatomic) CGFloat widthFactor;
 
 + (instancetype)cardViewControllerWithString:(NSString *)string widthFactor:(CGFloat)wFactor;

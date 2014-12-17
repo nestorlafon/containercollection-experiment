@@ -10,12 +10,12 @@
 #import "NLCollectionViewCell.h"
 #import "NLCardViewController.h"
 
-#define S_TOP 8
+#define S_TOP 4
 #define S_BOTTOM S_TOP
-#define S_LEFT 8
+#define S_LEFT 5
 #define S_RIGHT S_LEFT
-#define L_SEP S_TOP/2
-#define I_SEP S_LEFT/2
+#define L_SEP 4
+#define I_SEP L_SEP
 
 @interface NLViewController ()
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
@@ -27,21 +27,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.viewControllers = @[[NLCardViewController cardViewControllerWithString:@"ein" widthFactor:1],
-                             [NLCardViewController cardViewControllerWithString:@"zwei" widthFactor:0.5],
-                             [NLCardViewController cardViewControllerWithString:@"drei" widthFactor:0.5],
-                             [NLCardViewController cardViewControllerWithString:@"vier" widthFactor:0.5],
-                             [NLCardViewController cardViewControllerWithString:@"fünf" widthFactor:0.5],
-                             [NLCardViewController cardViewControllerWithString:@"sechs" widthFactor:1],
-                             [NLCardViewController cardViewControllerWithString:@"sieben" widthFactor:0.5],
-                             [NLCardViewController cardViewControllerWithString:@"acht" widthFactor:0.5],
-                             [NLCardViewController cardViewControllerWithString:@"neun" widthFactor:1],
-                             [NLCardViewController cardViewControllerWithString:@"zehn" widthFactor:0.5],
-                             [NLCardViewController cardViewControllerWithString:@"elf" widthFactor:1],
-                             [NLCardViewController cardViewControllerWithString:@"zwölf" widthFactor:0.75],
-                             [NLCardViewController cardViewControllerWithString:@"dreizehn" widthFactor:0.25],
-                             [NLCardViewController cardViewControllerWithString:@"vierzehn" widthFactor:0.3],
-                             [NLCardViewController cardViewControllerWithString:@"fünfzehn" widthFactor:0.3],
-                             [NLCardViewController cardViewControllerWithString:@"sechszehn" widthFactor:0.4]
+                             [NLCardViewController cardViewControllerWithString:@"zwei" widthFactor:1],
+                             [NLCardViewController cardViewControllerWithString:@"drei" widthFactor:2],
+                             [NLCardViewController cardViewControllerWithString:@"vier" widthFactor:2],
+                             [NLCardViewController cardViewControllerWithString:@"fünf" widthFactor:2],
+                             [NLCardViewController cardViewControllerWithString:@"sechs" widthFactor:2],
+                             [NLCardViewController cardViewControllerWithString:@"sieben" widthFactor:1],
+                             [NLCardViewController cardViewControllerWithString:@"acht" widthFactor:2],
+                             [NLCardViewController cardViewControllerWithString:@"neun" widthFactor:2],
+                             [NLCardViewController cardViewControllerWithString:@"zehn" widthFactor:1],
+                             [NLCardViewController cardViewControllerWithString:@"elf" widthFactor:4],
+                             [NLCardViewController cardViewControllerWithString:@"zwölf" widthFactor:1.0f/0.75f],
+                             [NLCardViewController cardViewControllerWithString:@"dreizehn" widthFactor:2],
+                             [NLCardViewController cardViewControllerWithString:@"vierzehn" widthFactor:2],
+                             [NLCardViewController cardViewControllerWithString:@"fünfzehn" widthFactor:1]
                              ];
     [self.viewControllers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         [self.collectionView registerClass:[NLCollectionViewCell class] forCellWithReuseIdentifier:[NSStringFromClass([obj class]) stringByAppendingFormat:@"%lu", (unsigned long)idx]];
@@ -76,7 +75,9 @@
     else {
         separator= S_RIGHT + I_SEP/2; //Assuming max of 2 per row
     }
-    return CGSizeMake(collectionView.frame.size.width*factor - separator, round(collectionView.frame.size.height/3 - 10));
+    CGFloat w = collectionView.frame.size.width*(1.0f/factor) - separator;
+    CGFloat h = 146;//collectionView.frame.size.width/2 - (S_RIGHT + I_SEP/2);
+    return CGSizeMake(w, h);
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
@@ -91,6 +92,9 @@
     return I_SEP;
 }
 
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    [self presentViewController:[NLCardViewController cardViewControllerWithString:@"modal" widthFactor:1] animated:YES completion:nil];
+}
 
 
 
